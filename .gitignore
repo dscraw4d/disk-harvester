@@ -1,0 +1,20 @@
+# Build output
+dist/
+bin/
+obj/
+*.exe
+*.pdb
+
+# Visual Studio / IDE
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Temporary files
+*.tmp
+*.partial
+*.log
+Thumbs.db
+Desktop.ini

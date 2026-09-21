@@ -1,0 +1,41 @@
+name: Windows Build
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Create output directory
+        shell: cmd
+        run: if not exist dist mkdir dist
+
+      - name: Build Viper Disk Harvester
+        shell: cmd
+        run: >-
+          "%WINDIR%\Microsoft.NET\Framework64\v4.0.30319\csc.exe"
+          /nologo
+          /target:winexe
+          /platform:anycpu
+          /optimize+
+          /reference:System.dll
+          /reference:System.Core.dll
+          /reference:System.Drawing.dll
+          /reference:System.Windows.Forms.dll
+          /win32icon:"assets\viper_icon.ico"
+          /resource:"assets\woz_reaper_logo.png",ViperDiskHarvester.Branding.WozReaperLogo
+          /out:"dist\Viper-Disk-Harvester.exe"
+          "src\ViperDiskHarvester.cs"
+
+      - name: Upload Windows executable
+        uses: actions/upload-artifact@v4
+        with:
+          name: Viper-Disk-Harvester-Windows
+          path: dist/Viper-Disk-Harvester.exe
